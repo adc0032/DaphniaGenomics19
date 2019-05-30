@@ -27,7 +27,7 @@ cdate=`date|awk 'OFS="_"{print $2,$3}'`
 ###variable information, and paying attention to your desired trimming parameters. Assumes paired end data and will need two files.
 ###User will want to run the fastqc script again to determine how trimming improved (or not) starting material
 
-#move to working location in scratch; checks for/creates fastqc product directory (pdir) to be zipped and returned to your home directory (SD)
+#move to working location in scratch; checks for/creates trimmomatic product directory (pdir) to be zipped and returned to your home directory (SD)
 
 cd $WD
 dir=`basename $Seq|awk -F. '{print $1}'`
