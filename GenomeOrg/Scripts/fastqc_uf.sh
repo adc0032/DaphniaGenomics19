@@ -18,7 +18,7 @@ module load fastqc/11.5
 #-----------------Define variables------------#
 WD="/scratch/userdirectory/"
 SD="/pathto/savedirectory/"
-Seq="pathto/sequenceforanalysis.fasta
+Seq="pathto/sequenceforanalysis.fasta"
 cdate=`date|awk 'OFS="_"{print $2,$3}'`
 # ----------------Commands------------------- #
 
