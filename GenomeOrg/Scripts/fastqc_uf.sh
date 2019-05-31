@@ -6,19 +6,20 @@
 ##list - node are nodes: ppn are cpus per node: walltime=walltime
 #PBS -l nodes=1:ppn=4,mem=4gb,walltime=10:00:00
 ##email
-#PBS -M adc0032@auburn.edu
+#PBS -M baileykhowell@gmail.com
 ##send email abort; begin; end
 #PBS -m ae
 ##job name
-#PBS -N fastqc_{Organism}
+#PBS -N fastqc_DpulicariaBA
 ##combine standard out and standard error
 #PBS -j oe
 # ----------------Load Modules-------------------- #
-module load fastqc/11.5
+module load fastqc/0.11.8
 #-----------------Define variables------------#
-WD="/scratch/userdirectory/"
-SD="/pathto/savedirectory/"
-Seq="pathto/sequenceforanalysis.fasta"
+WD="/scratch/bkh0024/"
+SD="/home/bkh0024/DaphniaGenomics19/GenomeOrg/Results"
+Seq="/home/bkh0024/DaphniaGenomics19/GenomeOrg/Data/BA_411_USD16091408L_HKFJFDSXX_L3_1.fq"
+Seq2="/home/bkh0024/DaphniaGenomics19/GenomeOrg/Data/BA_411_USD16091408L_HKFJFDSXX_L3_2.fq"
 cdate=`date|awk 'OFS="_"{print $2,$3}'`
 # ----------------Commands------------------- #
 
@@ -29,7 +30,8 @@ cdate=`date|awk 'OFS="_"{print $2,$3}'`
 
 cd $WD
 dir=`basename $Seq|awk -F. '{print $1}'`
-pdir="$dir.fastqc_$cdate"
+sp=`echo $dir|awk -F_ 'OFS="_"{print $1,$2}'`
+pdir="$sp.fastqc_$cdate"
 
 if [[ ! -d "$pdir" ]]; then
 	mkdir $pdir
@@ -41,7 +43,7 @@ fi
 ##seq file will need to be decompressed before feeding it to fastqc using the code below
 #fastqc analysis, option 1, can list multiple sequences (ex fastqc -t 4 $Seq $Seq2 $Seq3)
 
-fastqc -t 4 $Seq;
+fastqc -t 4 $Seq $Seq2;
 
 
 ##if you plan to leave the file compressed, you will need to use the following syntax
