@@ -1,0 +1,7 @@
+[bwa_idx_build] fail to open file 'dpulex' : No such file or directory
+[Fri May 31 13:54:26 CDT 2019] picard.sam.CreateSequenceDictionary REFERENCE=/home/bkh0024/DaphniaGenomics19/GenomeOrg/ReferenceGenome/PA42.fasta OUTPUT=dpulex.dict    TRUNCATE_NAMES_AT_WHITESPACE=true NUM_SEQUENCES=2147483647 VERBOSITY=INFO QUIET=false VALIDATION_STRINGENCY=STRICT COMPRESSION_LEVEL=5 MAX_RECORDS_IN_RAM=500000 CREATE_INDEX=false CREATE_MD5_FILE=false GA4GH_CLIENT_SECRETS=client_secrets.json
+[Fri May 31 13:54:26 CDT 2019] Executing as bkh0024@node100 on Linux 2.6.32-504.16.2.el6.x86_64 amd64; Java HotSpot(TM) 64-Bit Server VM 1.8.0_91-b14; Picard version: 2.4.1(7c4d36e011df1aec4689b51efcada44e92d1817f_1464389670) JdkDeflater
+[Fri May 31 13:54:27 CDT 2019] picard.sam.CreateSequenceDictionary done. Elapsed time: 0.02 minutes.
+Runtime.totalMemory()=2058354688
+PA42.indices_May_31/
+PA42.indices_May_31/dpulex.dict
