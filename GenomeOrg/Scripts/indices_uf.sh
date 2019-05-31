@@ -23,7 +23,7 @@ module load java/1.8.0_91
 WD="/scratch/bkh0024/"
 SD="/home/bkh0024/DaphniaGenomics19/GenomeOrg/ReferenceGenome"
 Seq="/home/bkh0024/DaphniaGenomics19/GenomeOrg/ReferenceGenome/PA42.fasta"
-cdate=`date|awk 'OFS="_"{print $2,$3}'
+cdate=`date|awk 'OFS="_"{print $2,$3}'`
 ref="dpulex"
 # ----------------Commands------------------- #
 
@@ -34,7 +34,7 @@ ref="dpulex"
 cd $WD
 
 ##Makes variable directory from stripped sequence name (the part before the period only)
-dir=`basename $Seq|awk -F. '{print $1}'
+dir=`basename $Seq|awk -F. '{print $1}'`
 
 ##Sets product directory variable to be named with stripped sequence name followed by date info
 pdir="$dir.indices_$cdate"
