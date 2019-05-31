@@ -4,13 +4,13 @@
 ##choose queue
 ####PBS -q
 ##list - node are nodes: ppn are cpus per node: walltime=walltime
-#PBS -l nodes=1:ppn=10,mem=100gb,walltime=96:00:00
+#PBS -l nodes=1:ppn=10,mem=100gb,walltime=90:00:00:00
 ##email
-#PBS -M adc0032@auburn.edu
+#PBS -M baileykhowell@gmail.com
 ##send email abort; begin; end
 #PBS -m ae
 ##job name
-#PBS -N bwa_{Organism}
+#PBS -N bwa_DpulicariaBA
 ##combine standard out and standard error
 #PBS -j oe
 # ----------------Load Modules-------------------- #
@@ -18,10 +18,10 @@ module load bwa/0.7.15
 module load xz/5.2.2
 module load samtools/1.6
 #-----------------Define variables------------#
-WD="/scratch/userdirectory/"
-SD="/pathto/savedirectory/"
-Seq1="pathto/sequenceR1analysis.fastq"
-Seq2="pathto/sequenceR2analysis.fastq"
+WD="/scratch/bkh0024/"
+SD="/home/bkh0024/DaphniaGenomics19/GenomeOrg/Results/"
+Seq1="/home/bkh0024/DaphniaGenomics19/GenomeOrg/Data/BA_411_USD16091408L_HKFJFDSXX_L3_1.fq"
+Seq2="/home/bkh0024/DaphniaGenomics19/GenomeOrg/Data/BA_411_USD16091408L_HKFJFDSXX_L3_2.fq"
 cdate=`date|awk 'OFS="_"{print $2,$3}'`
 # ----------------Commands------------------- #
 
@@ -39,7 +39,8 @@ else
 
 cd $WD
 dir=`basename $Seq|awk -F. '{print $1}'`
-pdir="$dir.bwa_$cdate"
+sp=`echo $dir|awk -F_ 'OFS="_"{print $1,$2}'`
+pdir="$sp.bwa_$cdate"
 
 if [[ ! -d "$pdir" ]]; then
         mkdir $pdir
