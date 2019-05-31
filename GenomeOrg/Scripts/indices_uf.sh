@@ -55,3 +55,11 @@ samtools faidx $Seq
 
 ## command to create index for picard tools
 java -Xms2g -Xmx14g -jar /tools/picard-tools-2.4.1/picard.jar CreateSequenceDictionary R=$Seq O=$ref.dict 
+
+#Product/output compression and relocation
+
+cd ..
+
+tar -cvf $pdir.tar $pdir;
+
+mv $pdir.tar $SD
