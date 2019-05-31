@@ -1,0 +1,37 @@
+[bwa_index] Pack FASTA... 1.21 sec
+[bwa_index] Construct BWT for the packed sequence...
+[BWTIncCreate] textLength=312836396, availableWord=34012200
+[BWTIncConstructFromPacked] 10 iterations done. 56104876 characters processed.
+[BWTIncConstructFromPacked] 20 iterations done. 103649756 characters processed.
+[BWTIncConstructFromPacked] 30 iterations done. 145903740 characters processed.
+[BWTIncConstructFromPacked] 40 iterations done. 183455180 characters processed.
+[BWTIncConstructFromPacked] 50 iterations done. 216826972 characters processed.
+[BWTIncConstructFromPacked] 60 iterations done. 246483868 characters processed.
+[BWTIncConstructFromPacked] 70 iterations done. 272838972 characters processed.
+[BWTIncConstructFromPacked] 80 iterations done. 296259436 characters processed.
+[bwa_index] 86.67 seconds elapse.
+[bwa_index] Update BWT... 0.74 sec
+[bwa_index] Pack forward-only FASTA... 0.77 sec
+[bwa_index] Construct SA from BWT and Occ... 36.81 sec
+[bwt_gen] Finished constructing BWT in 88 iterations.
+[main] Version: 0.7.15-r1140
+[main] CMD: bwa index -p dpulex -a bwtsw /home/bkh0024/DaphniaGenomics19/GenomeOrg/ReferenceGenome/PA42.fasta
+[main] Real time: 132.881 sec; CPU: 126.219 sec
+[Fri May 31 14:22:53 CDT 2019] picard.sam.CreateSequenceDictionary REFERENCE=/home/bkh0024/DaphniaGenomics19/GenomeOrg/ReferenceGenome/PA42.fasta OUTPUT=dpulex.dict    TRUNCATE_NAMES_AT_WHITESPACE=true NUM_SEQUENCES=2147483647 VERBOSITY=INFO QUIET=false VALIDATION_STRINGENCY=STRICT COMPRESSION_LEVEL=5 MAX_RECORDS_IN_RAM=500000 CREATE_INDEX=false CREATE_MD5_FILE=false GA4GH_CLIENT_SECRETS=client_secrets.json
+[Fri May 31 14:22:53 CDT 2019] Executing as bkh0024@node189 on Linux 2.6.32-504.16.2.el6.x86_64 amd64; Java HotSpot(TM) 64-Bit Server VM 1.8.0_91-b14; Picard version: 2.4.1(7c4d36e011df1aec4689b51efcada44e92d1817f_1464389670) JdkDeflater
+[Fri May 31 14:22:53 CDT 2019] picard.sam.CreateSequenceDictionary done. Elapsed time: 0.01 minutes.
+Runtime.totalMemory()=2058354688
+To get help, see http://broadinstitute.github.io/picard/index.html#GettingHelp
+Exception in thread "main" picard.PicardException: /gpfs01/scratch/bkh0024/PA42.indices_May_31/dpulex.dict already exists.  Delete this file and try again, or specify a different output file.
+	at picard.sam.CreateSequenceDictionary.doWork(CreateSequenceDictionary.java:134)
+	at picard.cmdline.CommandLineProgram.instanceMain(CommandLineProgram.java:209)
+	at picard.cmdline.PicardCommandLine.instanceMain(PicardCommandLine.java:95)
+	at picard.cmdline.PicardCommandLine.main(PicardCommandLine.java:105)
+PA42.indices_May_31/
+PA42.indices_May_31/dpulex.amb
+PA42.indices_May_31/dpulex.bwt
+PA42.indices_May_31/dpulex.pac
+PA42.indices_May_31/dpulex.ann
+PA42.indices_May_31/dpulex.sa
+PA42.indices_May_31/dpulex.dict
+Warning: Permanently added 'node189,192.168.10.189' (RSA) to the list of known hosts.
