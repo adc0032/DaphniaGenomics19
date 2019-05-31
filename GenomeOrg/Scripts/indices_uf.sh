@@ -48,7 +48,7 @@ else
 fi
 
 ## command to create index reference genome
-bwa index $ref -a bwtsw $Seq
+bwa index -p $ref -a bwtsw $Seq
 
 ## command to create index for samtools
 samtools faidx $Seq
