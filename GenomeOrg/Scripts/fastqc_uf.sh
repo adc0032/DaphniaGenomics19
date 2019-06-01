@@ -4,13 +4,13 @@
 ##choose queue
 ####PBS -q
 ##list - node are nodes: ppn are cpus per node: walltime=walltime
-#PBS -l nodes=1:ppn=10,mem=100gb,walltime=10:00:00
+#PBS -l nodes=1:ppn=4,mem=16gb,walltime=10:00:00
 ##email
 #PBS -M baileykhowell@gmail.com
 ##send email abort; begin; end
 #PBS -m ae
 ##job name
-#PBS -N fastqc_DpulicariaBA
+#PBS -N fastqc_{Organism}
 ##combine standard out and standard error
 #PBS -j oe
 # ----------------Load Modules-------------------- #
@@ -43,9 +43,7 @@ fi
 ##seq file will need to be decompressed before feeding it to fastqc using the code below
 #fastqc analysis, option 1, can list multiple sequences (ex fastqc -t 4 $Seq $Seq2 $Seq3)
 
-fastqc -t 10 $Seq
-
-fastqc -t 10 $Seq2
+fastqc -t 4 --outdir=$SD $Seq $Seq2
 
 
 ##if you plan to leave the file compressed, you will need to use the following syntax
