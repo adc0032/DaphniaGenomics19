@@ -23,7 +23,7 @@ SD="/home/bkh0024/DaphniaGenomics19/GenomeOrg/Results/"
 Seq1="/home/bkh0024/DaphniaGenomics19/GenomeOrg/Data/BA_411_USD16091408L_HKFJFDSXX_L3_1.fq"
 Seq2="/home/bkh0024/DaphniaGenomics19/GenomeOrg/Data/BA_411_USD16091408L_HKFJFDSXX_L3_2.fq"
 cdate=`date|awk 'OFS="_"{print $2,$3}'`
-ref="/path/to/ref/refname"
+ref="/home/bkh0024/DaphniaGenomics19/GenomeOrg/ReferenceGenome/PA42.fasta"
 # ----------------Commands------------------- #
 
 ###Script is used to run bwa on sequence files for mapping to reference. Review script, making sure to fill in your own
