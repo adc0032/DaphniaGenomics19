@@ -10,7 +10,7 @@
 ##send email abort; begin; end
 #PBS -m ae
 ##job name
-#PBS -N fastqc_{Organism}
+#PBS -N fastqc_{DpulicariaWI}
 ##combine standard out and standard error
 #PBS -j oe
 # ----------------Load Modules-------------------- #
@@ -18,8 +18,8 @@ module load fastqc/0.11.8
 #-----------------Define variables------------#
 WD="/scratch/bkh0024/"
 SD="/home/bkh0024/DaphniaGenomics19/GenomeOrg/Results"
-Seq="/home/bkh0024/DaphniaGenomics19/GenomeOrg/Data/BA_411_USD16091408L_HKFJFDSXX_L3_1.fq"
-Seq2="/home/bkh0024/DaphniaGenomics19/GenomeOrg/Data/BA_411_USD16091408L_HKFJFDSXX_L3_2.fq"
+Seq="/home/bkh0024/DaphniaGenomics19/GenomeOrg/Data/WI_6_USD16091409L_HKFJFDSXX_L3_1.fq"
+Seq2="/home/bkh0024/DaphniaGenomics19/GenomeOrg/Data/WI_6_USD16091409L_HKFJFDSXX_L3_2.fq"
 cdate=`date|awk 'OFS="_"{print $2,$3}'`
 # ----------------Commands------------------- #
 
