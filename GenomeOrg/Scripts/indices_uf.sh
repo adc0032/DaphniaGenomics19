@@ -24,7 +24,7 @@ WD="/scratch/bkh0024/"
 SD="/home/bkh0024/DaphniaGenomics19/GenomeOrg/ReferenceGenome"
 Seq="/home/bkh0024/DaphniaGenomics19/GenomeOrg/ReferenceGenome/PA42.fasta"
 cdate=`date|awk 'OFS="_"{print $2,$3}'`
-ref="dpulex"
+ref="PA42"
 # ----------------Commands------------------- #
 
 ##Script is used to create indices reference genomes for bwa, samtools, and picardtools. Review 
