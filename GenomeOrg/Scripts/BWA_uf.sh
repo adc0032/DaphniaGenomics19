@@ -4,7 +4,7 @@
 ##choose queue
 ####PBS -q
 ##list - node are nodes: ppn are cpus per node: walltime=walltime
-#PBS -l nodes=1:ppn=10,mem=100gb,walltime=70:00:00:00
+#PBS -l nodes=1:ppn=4,mem=16gb,walltime=70:00:00:00
 ##email
 #PBS -M baileykhowell@gmail.com
 ##send email abort; begin; end
@@ -56,8 +56,7 @@ else
 ## -R requires readgroups. ID, PU and LB all should be unique if reads were split across lanes-especially.
 ## samtools steps following the pipe : -Sb converts SAM to BAM, sorts, outputs sorted bam files
 
-bwa mem -M  -v 3 -t 10 -R "@RG\tID:HKFJFDSXX3\tSM:BA411\tPL:illumina\tPU:HKFJFDSXX8L3\tLB:USD16091408L" $ref \
-$Seq $Seq2 | samtools view -Sb | samtools sort > $sp.sorted.bam;
+bwa mem -M  -v 3 -t 4 -R "@RG\tID:HKFJFDSXX3\tSM:BA411\tPL:illumina\tPU:HKFJFDSXX8L3\tLB:USD16091408L" $ref $Seq $Seq2 | samtools view -Sb | samtools sort > $sp.sorted.bam;
 
 #Product/output compression and relocation
 
