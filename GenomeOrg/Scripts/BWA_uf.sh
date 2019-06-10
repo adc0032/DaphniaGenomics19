@@ -43,7 +43,7 @@ cd $WD
 dir=`basename $Seq1|awk -F. '{print $1}'`
 sp=`echo $dir|awk -F_ 'OFS="_"{print $1,$2}'`
 pdir="$sp.bwa_$cdate"
-
+r=`basename $ref|awk -F. '{print $1}'`
 if [[ ! -d "$pdir" ]]; then
         mkdir $pdir
         cd $pdir
@@ -51,12 +51,15 @@ else
         cd $pdir
 fi
 
+
+#Moving necessary files to scratch location
+cp ~/DaphniaGenomics19/GenomeOrg/ReferenceGenome/PA42.indices_Jun_8/PA42.* .
 ## -M makes it compatible with picard (downstream program), -v is level of verbosity, -t is the number of threads or ppn
 ##from above. name of reference needs to be given here-the same name from the index script.
 ## -R requires readgroups. ID, PU and LB all should be unique if reads were split across lanes-especially.
 ## samtools steps following the pipe : -Sb converts SAM to BAM, sorts, outputs sorted bam files
 
-bwa mem -M  -v 3 -t 4 -R "@RG\tID:HKFJFDSXX3\tSM:BA411\tPL:illumina\tPU:HKFJFDSXX8L3\tLB:USD16091408L" $ref $Seq1 $Seq2 | samtools view -Sb | samtools sort > $sp.sorted.bam 
+bwa mem -M  -v 3 -t 4 -R "@RG\tID:HKFJFDSXX3\tSM:BA411\tPL:illumina\tPU:HKFJFDSXX8L3\tLB:USD16091408L" $r $Seq1 $Seq2 | samtools view -Sb | samtools sort > $sp.sorted.bam 
 
 #Product/output compression and relocation
 
