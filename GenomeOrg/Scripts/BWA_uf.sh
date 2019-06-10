@@ -30,13 +30,13 @@ ref="/home/bkh0024/DaphniaGenomics19/GenomeOrg/ReferenceGenome/PA42.indices_June
 ###variable information, and paying attention to your desired naming parameters. Assumes paired end data and will need two files.
 ###User may want to add readgroups to this step, but also (theoretially) can be done in picard tools.
 
-## to be used in a different setting. 
+## to be used in a different setting.
 #if [[ $# -lt 1 ]]; then
 #	echo "Script requires argument for reference name made in index script. This would be the prefix provided to indices_uf.sh (ex. qsub )"
 #else
 #	ref="$1"
 
-#move to working location in scratch; checks for/creates bwa product directory (pdir) to be zipped 
+#move to working location in scratch; checks for/creates bwa product directory (pdir) to be zipped
 #and returned to your home directory (SD)
 
 cd $WD
@@ -49,14 +49,14 @@ if [[ ! -d "$pdir" ]]; then
         cd $pdir
 else
         cd $pdir
-
+fi
 
 ## -M makes it compatible with picard (downstream program), -v is level of verbosity, -t is the number of threads or ppn
 ##from above. name of reference needs to be given here-the same name from the index script.
 ## -R requires readgroups. ID, PU and LB all should be unique if reads were split across lanes-especially.
 ## samtools steps following the pipe : -Sb converts SAM to BAM, sorts, outputs sorted bam files
 
-bwa mem -M  -v 3 -t 4 -R "@RG\tID:HKFJFDSXX3\tSM:BA411\tPL:illumina\tPU:HKFJFDSXX8L3\tLB:USD16091408L" $ref $Seq1 $Seq2 | samtools view -Sb | samtools sort > $sp.sorted.bam;
+bwa mem -M  -v 3 -t 4 -R "@RG\tID:HKFJFDSXX3\tSM:BA411\tPL:illumina\tPU:HKFJFDSXX8L3\tLB:USD16091408L" $ref $Seq1 $Seq2 | samtools view -Sb | samtools sort > $sp.sorted.bam 
 
 #Product/output compression and relocation
 
