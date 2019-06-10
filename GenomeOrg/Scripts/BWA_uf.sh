@@ -59,10 +59,10 @@ cp ~/DaphniaGenomics19/GenomeOrg/ReferenceGenome/PA42.indices_Jun_8/PA42.* .
 ## -R requires readgroups. ID, PU and LB all should be unique if reads were split across lanes-especially.
 ## samtools steps following the pipe : -Sb converts SAM to BAM, sorts, outputs sorted bam files
 
-bwa mem -M  -v 3 -t 4 -R "@RG\tID:HKFJFDSXX3\tSM:BA411\tPL:illumina\tPU:HKFJFDSXX8L3\tLB:USD16091408L" $r $Seq1 $Seq2 | samtools view -Sb | samtools sort > $sp.sorted.bam 
+bwa mem -M  -v 3 -t 4 -R "@RG\tID:HKFJFDSXX3\tSM:BA411\tPL:illumina\tPU:HKFJFDSXX8L3\tLB:USD16091408L" $r $Seq1 $Seq2 | samtools view -Sb | samtools sort > $sp.sorted.bam;
 
 #Product/output compression and relocation
-
+rm PA42.* 
 cd ..
 
 tar -cvf $pdir.tar $pdir;
