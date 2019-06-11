@@ -36,6 +36,7 @@ cd $WD
 dir=`basename $Seq|awk -F. '{print $1}'`
 sp=`echo $dir|awk -F_ 'OFS="_"{print $1,$2}'`
 pdir="$sp.qc2_$cdate"
+
 if [[ ! -d "$pdir" ]]; then
         mkdir $pdir
         cd $pdir
@@ -44,20 +45,20 @@ else
 fi
 
 ##place commands to create an index for the bam file below
-samtools index -b $Bam $Bam.bai
+samtools index -b $Bam $sp.bam.bai
 
 ##place commands for samtools flagstat below
 samtools flagstat $Bam > $sp.bam_flagstats
 
 ##place commands to run samtools depth below along with code to calculate ref genome size and average coverage
 genome_size=`awk '{genome_size+=$2} END {print genome_size}' /home/bkh0024/DaphniaGenomics19/GenomeOrg/ReferenceGenome/PA42.indices_Jun_8/PA42.fasta.fai`
-samtools depth $Bam > $sp_DC.txt 
-sum=`awk '{sum+=$3}' $sp_DC.txt`
+samtools depth $Bam > $sp.DC.txt 
+sum=`awk '{sum+=$3}' $sp.DC.txt` *
 AverageCov=`expr $sum / $genome_size`
-echo $AverageCov >> $sp_DC.txt
+echo $AverageCov >> $sp.DC.txt *
 
 ##place commands for picard tools below
-java -Xms2g -Xmx14g -jar /tools/picard-tools-2.4.1/picard.jar MarkDuplicates I=$Bam O=MD_$sp.sorted.bam M=MD_$sp_metrics.txt
+java -Xms2g -Xmx16g -jar /tools/picard-tools-2.4.1/picard.jar MarkDuplicates I=$Bam O=MD_$sp.sorted.bam M=MD_$sp.metrics.txt
 
 ##place commands for running flagstat on marked duplicates bam file below
 samtools flagstat MD_$sp.sorted.bam > MD_$sp.bam_flagstats
