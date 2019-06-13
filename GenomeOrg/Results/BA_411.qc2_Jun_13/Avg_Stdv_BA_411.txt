@@ -1,0 +1,2 @@
+stdev =  128.176
+Average coverage =  37
