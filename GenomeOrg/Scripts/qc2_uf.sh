@@ -45,20 +45,21 @@ else
 fi
 
 ##place commands to create an index for the bam file below
-samtools index -b $Bam $sp.bam.bai
+samtools index -b $Bam $sp.bam.bai;
 
 ##place commands for samtools flagstat below
-samtools flagstat $Bam > $sp.bam_flagstats
+samtools flagstat $Bam > $sp.bam_flagstats;
 
 ##place commands to run samtools depth below along with code to calculate ref genome size and average coverage
 genome_size=`awk '{genome_size+=$2} END {print genome_size}' /home/bkh0024/DaphniaGenomics19/GenomeOrg/ReferenceGenome/PA42.indices_Jun_8/PA42.fasta.fai`
-samtools depth $Bam > $sp.DC.txt 
-sum=`awk '{sum+=$3}' $sp.DC.txt` *
+samtools depth -a $Bam > $sp.DC.txt
+awk '{sum+=$3; sumsq+=$3*$3} END {print "stdev = ",sqrt(sumsq/156418198 -(sum/156418198)**2)}' $sp.DC.txt > Avg_Stdv_$sp.txt
+sum=`awk '{sum+=$3} END {print sum}' $sp.DC.txt` 
 AverageCov=`expr $sum / $genome_size`
-echo $AverageCov >> $sp.DC.txt *
+echo "Average coverage = " $AverageCov >> Avg_Stdv_$sp.txt
 
 ##place commands for picard tools below
-java -Xms2g -Xmx16g -jar /tools/picard-tools-2.4.1/picard.jar MarkDuplicates I=$Bam O=MD_$sp.sorted.bam M=MD_$sp.metrics.txt
+java -Xms2g -Xmx16g -jar /tools/picard-tools-2.4.1/picard.jar MarkDuplicates I=$Bam O=MD_$sp.sorted.bam M=MD_$sp.metrics.txt;
 
 ##place commands for running flagstat on marked duplicates bam file below
 samtools flagstat MD_$sp.sorted.bam > MD_$sp.bam_flagstats
