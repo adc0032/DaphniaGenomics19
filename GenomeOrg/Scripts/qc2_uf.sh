@@ -64,6 +64,9 @@ java -Xms2g -Xmx16g -jar /tools/picard-tools-2.4.1/picard.jar MarkDuplicates I=$
 ##place commands for running flagstat on marked duplicates bam file below
 samtools flagstat MD_$sp.sorted.bam > MD_$sp.bam_flagstats
 
+##places commands below to build a bam index for our marked duplicates bam
+java -jar /tools/picard-tools-2.4.1/picard.jar BuildBamIndex I=MD_$sp.sorted.bam
+
 cd ..
 
 tar -cvf $pdir.tar $pdir;
