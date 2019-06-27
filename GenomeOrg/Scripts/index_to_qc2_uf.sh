@@ -47,6 +47,7 @@ if [[ ! -d "$ind" ]]; then
         cd $ind
 else
         cd $ind
+fi
 
 ## command to create index reference genome
 bwa index -p $ref -a bwtsw $Seq
@@ -65,11 +66,13 @@ tar -cvf $ind.tar $ind;
 
 mv $ind.tar $RD
 
-tar -xvf $RD/$ind.tar;
+cd $RD
+
+tar -xvf $ind.tar;
 
 cd $RD/$ind
 
-mv ../Daphnia_pulex* .
+mv ../Daphnia_pulex.* .
 
 ###this portion is used to run bwa on sequence files for mapping to reference. Review script, making sure to fill in your own
 ###variable information, and paying attention to your desired naming parameters. Assumes paired end data and will need two files.
@@ -94,7 +97,7 @@ else
 fi
 
 #Moving necessary files to scratch location
-cp ~/DaphniaGenomics19/GenomeOrg/ReferenceGenome/our_fasta/Daphnia_pulex.indices_$cdate/Daphnia_pulex.* .
+cp $RD/$ind/Daphnia_pulex.* .
 ## -M makes it compatible with picard (downstream program), -v is level of verbosity, -t is the number of threads or ppn
 ##from above. name of reference needs to be given here-the same name from the index script.
 ## -R requires readgroups. ID, PU and LB all should be unique if reads were split across lanes-especially.
@@ -138,7 +141,7 @@ samtools index -b $Bam $sp.bam.bai;
 samtools flagstat $Bam > $sp.bam_flagstats;
 
 ##place commands to run samtools depth below along with code to calculate ref genome size and average coverage
-genome_size=`awk '{genome_size+=$2} END {print genome_size}' /home/bkh0024/DaphniaGenomics19/GenomeOrg/ReferenceGenome/Daphnia_pulex.indices_$cdate/Daphnia_pulex.scaffolds.fa.fai`
+genome_size=`awk '{genome_size+=$2} END {print genome_size}' $RD/$ind/Daphnia_pulex.scaffolds.fa.fai`
 samtools depth -a $Bam > $sp.DC.txt
 awk '{sum+=$3; sumsq+=$3*$3} END {print "Standard deviation = ",sqrt(sumsq/156418198 -(sum/156418198)**2)}' $sp.DC.txt > Avg_Stdv_$sp.txt
 sum=`awk '{sum+=$3} END {print sum}' $sp.DC.txt`
@@ -149,10 +152,7 @@ echo "Average coverage = " $AverageCov >> Avg_Stdv_$sp.txt
 java -Xms2g -Xmx16g -jar /tools/picard-tools-2.4.1/picard.jar MarkDuplicates I=$Bam O=MD_$sp.sorted.bam M=MD_$sp.metrics.txt;
 
 ##place commands for running flagstat on marked duplicates bam file below
-samtools flagstat MD_$sp.sorted.bam > MD_$sp.bam_flagstats
-
-##places commands below to build a bam index for our marked duplicates bam file below
-samtools flagstat MD_$sp.sorted.bam > MD_$sp.bam_flagstats
+samtools flagstat MD_$sp.sorted.bam > MD_$sp.bam_flagstats;
 
 ##places commands below to build a bam index for our marked duplicates bam
 java -jar /tools/picard-tools-2.4.1/picard.jar BuildBamIndex I=MD_$sp.sorted.bam
