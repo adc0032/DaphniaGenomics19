@@ -67,7 +67,7 @@ mv $ind.tar $RD
 
 tar -xvf $RD/$ind.tar;
 
-cd $ind
+cd $RD/$ind
 
 mv ../Daphnia_pulex* .
 
