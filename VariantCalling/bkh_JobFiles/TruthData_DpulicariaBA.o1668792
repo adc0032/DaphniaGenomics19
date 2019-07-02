@@ -1,0 +1,64 @@
+10:53:24.108 INFO  NativeLibraryLoader - Loading libgkl_compression.so from jar:file:/gpfs01/tools/gatk-4.1.2.0/gatk-package-4.1.2.0-local.jar!/com/intel/gkl/native/libgkl_compression.so
+Jul 01, 2019 10:53:25 AM shaded.cloud_nio.com.google.auth.oauth2.ComputeEngineCredentials runningOnComputeEngine
+INFO: Failed to detect whether we are running on Google Compute Engine.
+10:53:25.859 INFO  HaplotypeCaller - ------------------------------------------------------------
+10:53:25.860 INFO  HaplotypeCaller - The Genome Analysis Toolkit (GATK) v4.1.2.0
+10:53:25.861 INFO  HaplotypeCaller - For support and documentation go to https://software.broadinstitute.org/gatk/
+10:53:25.861 INFO  HaplotypeCaller - Executing as bkh0024@node128 on Linux v2.6.32-504.16.2.el6.x86_64 amd64
+10:53:25.861 INFO  HaplotypeCaller - Java runtime: Java HotSpot(TM) 64-Bit Server VM v1.8.0_91-b14
+10:53:25.863 INFO  HaplotypeCaller - Start Date/Time: July 1, 2019 10:53:24 AM CDT
+10:53:25.863 INFO  HaplotypeCaller - ------------------------------------------------------------
+10:53:25.863 INFO  HaplotypeCaller - ------------------------------------------------------------
+10:53:25.864 INFO  HaplotypeCaller - HTSJDK Version: 2.19.0
+10:53:25.864 INFO  HaplotypeCaller - Picard Version: 2.19.0
+10:53:25.864 INFO  HaplotypeCaller - HTSJDK Defaults.COMPRESSION_LEVEL : 2
+10:53:25.864 INFO  HaplotypeCaller - HTSJDK Defaults.USE_ASYNC_IO_READ_FOR_SAMTOOLS : false
+10:53:25.864 INFO  HaplotypeCaller - HTSJDK Defaults.USE_ASYNC_IO_WRITE_FOR_SAMTOOLS : true
+10:53:25.864 INFO  HaplotypeCaller - HTSJDK Defaults.USE_ASYNC_IO_WRITE_FOR_TRIBBLE : false
+10:53:25.864 INFO  HaplotypeCaller - Deflater: IntelDeflater
+10:53:25.864 INFO  HaplotypeCaller - Inflater: IntelInflater
+10:53:25.864 INFO  HaplotypeCaller - GCS max retries/reopens: 20
+10:53:25.864 INFO  HaplotypeCaller - Requester pays: disabled
+10:53:25.864 INFO  HaplotypeCaller - Initializing engine
+10:53:25.866 INFO  HaplotypeCaller - Shutting down engine
+[July 1, 2019 10:53:25 AM CDT] org.broadinstitute.hellbender.tools.walkers.haplotypecaller.HaplotypeCaller done. Elapsed time: 0.03 minutes.
+Runtime.totalMemory()=2455240704
+***********************************************************************
+
+A USER ERROR has occurred: The specified fasta file (file:///home/bkh0024/DaphniaGenomics19/GenomeOrg/ReferenceGenome/our_fasta/Daphnia_pulex.indices_Jun_27/Daphnia_pulex) does not exist.
+
+***********************************************************************
+Set the system property GATK_STACKTRACE_ON_USER_EXCEPTION (--java-options '-DGATK_STACKTRACE_ON_USER_EXCEPTION=true') to print the stack trace.
+Using GATK jar /gpfs01/tools/gatk-4.1.2.0/gatk-package-4.1.2.0-local.jar
+Running:
+    java -Dsamjdk.use_async_io_read_samtools=false -Dsamjdk.use_async_io_write_samtools=true -Dsamjdk.use_async_io_write_tribble=false -Dsamjdk.compression_level=2 -Xmx4g -jar /gpfs01/tools/gatk-4.1.2.0/gatk-package-4.1.2.0-local.jar HaplotypeCaller -R /home/bkh0024/DaphniaGenomics19/GenomeOrg/ReferenceGenome/our_fasta/Daphnia_pulex.indices_Jun_27/Daphnia_pulex -I /home/bkh0024/DaphniaGenomics19/GenomeOrg/Results/BA_411.qc2_Jun_27/MD_BA_411.sorted.bam -O 0_BA_411.vcf
+
+VCFtools - 0.1.17
+(C) Adam Auton and Anthony Marcketta 2009
+
+Parameters as interpreted:
+	--vcf 0_BA_411.vcf
+	--out 0_site_depth
+	--site-depth
+
+stat error: No such file or directory
+Error: Can't determine file type of 0_BA_411.vcf
+
+VCFtools - 0.1.17
+(C) Adam Auton and Anthony Marcketta 2009
+
+Parameters as interpreted:
+	--vcf 0_BA_411.vcf
+	--out 0_site_quality
+	--site-quality
+
+stat error: No such file or directory
+Error: Can't determine file type of 0_BA_411.vcf
+cat: 0_site_quality.lqual: No such file or directory
+Error in read.table(textConnection(f), header = TRUE) : 
+  no lines available in input
+Execution halted
+cat: 0_site_depth.ldepth: No such file or directory
+Error in read.table(textConnection(f), header = TRUE) : 
+  no lines available in input
+Execution halted
