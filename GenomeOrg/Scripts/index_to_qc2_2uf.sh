@@ -10,7 +10,7 @@
 ##send email abort; begin; end
 #PBS -m ae
 ##job name
-#PBS -N index_Dpulex_to_qc2_DpulicariaWI
+#PBS -N index_Dpulex_to_qc2_DpulicariaBA
 ##combine standard out and standard error
 #PBS -j oe
 # ----------------Load Modules-------------------- #
@@ -26,8 +26,8 @@ SD="/home/bkh0024/DaphniaGenomics19/GenomeOrg/Results"
 Seq="/home/bkh0024/DaphniaGenomics19/GenomeOrg/ReferenceGenome/our_fasta/Daphnia_pulex.fa"
 cdate=`date|awk 'OFS="_"{print $2,$3}'`
 ref="Daphnia_pulex"
-Seq1="/home/bkh0024/DaphniaGenomics19/GenomeOrg/Data/WI_6_USD16091409L_HKFJFDSXX_L3_1.fq"
-Seq2="/home/bkh0024/DaphniaGenomics19/GenomeOrg/Data/WI_6_USD16091409L_HKFJFDSXX_L3_2.fq"
+Seq1="/home/bkh0024/DaphniaGenomics19/GenomeOrg/Data/BA_411_USD16091408L_HKFJFDSXX_L3_1.fq"
+Seq2="/home/bkh0024/DaphniaGenomics19/GenomeOrg/Data/BA_411_USD16091408L_HKFJFDSXX_L3_2.fq"
 # ----------------Commands------------------- #
 
 ##Script is used to create indices reference genomes for bwa, samtools, and picardtools. Review
@@ -103,7 +103,7 @@ cp $RD/$ind/Daphnia_pulex.* .
 ## -R requires readgroups. ID, PU and LB all should be unique if reads were split across lanes-especially.
 ## samtools steps following the pipe : -Sb converts SAM to BAM, sorts, outputs sorted bam files
 
-bwa mem -M  -v 3 -t 4 -R "@RG\tID:HKFJFDSXX3\tSM:WI6\tPL:illumina\tPU:HKFJFDSXX9L3\tLB:USD16091409L" $ref $Seq1 $Seq2 | samtools view -Sb | samtools sort > $sp.sorted.bam;
+bwa mem -M  -v 3 -t 4 -R "@RG\tID:HKFJFDSXX3\tSM:BA411\tPL:illumina\tPU:HKFJFDSXX8L3\tLB:USD16091408L" $ref $Seq1 $Seq2 | samtools view -Sb | samtools sort > $sp.sorted.bam;
 
 #Product/output compression and relocation
 rm Daphnia_pulex.* 
