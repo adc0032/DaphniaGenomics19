@@ -1,0 +1,2 @@
+      mean       sd median quantile   min    max
+1 948.0256 1555.866 940.03   481.02 30.01 323124
