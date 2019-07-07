@@ -10,7 +10,7 @@
 ##send email abort; begin; end
 #PBS -m ae
 ##job name
-#PBS -N TruthData_DpulicariaBA
+#PBS -N TruthData_DpulicariaWI
 ##combine standard out and standard error
 #PBS -j oe
 # ----------------Load Modules-------------------- #
@@ -21,8 +21,8 @@ module load gatk/4.1.2.0
 #-----------------Define variables------------#
 WD="/scratch/bkh0024"
 SD="/home/bkh0024/DaphniaGenomics19/VariantCalling/Results"
-Seq="/home/bkh0024/DaphniaGenomics19/GenomeOrg/Data/BA_411_USD16091408L_HKFJFDSXX_L3_1.fq"
-MDB="/home/bkh0024/DaphniaGenomics19/GenomeOrg/Results/BA_411.qc2_Jun_27/MD_BA_411.sorted.bam"
+Seq="/home/bkh0024/DaphniaGenomics19/GenomeOrg/Data/WI_6_USD16091409L_HKFJFDSXX_L3_1.fq"
+MDB="/home/bkh0024/DaphniaGenomics19/GenomeOrg/Results/WI_6.qc2_Jun_27/MD_WI_6.sorted.bam"
 ref="/home/bkh0024/DaphniaGenomics19/GenomeOrg/ReferenceGenome/our_fasta/Daphnia_pulex.indices_Jun_27/Daphnia_pulex.fa"
 cdate=`date|awk 'OFS="_"{print $2,$3}'`
 # ----------------Commands------------------- #
