@@ -143,7 +143,7 @@ samtools index -b $Bam $sp.bam.bai;
 samtools flagstat $Bam > $sp.bam_flagstats;
 
 ##place commands to run samtools depth below along with code to calculate ref genome size and average coverage
-genome_size=`awk '{genome_size+=$2} END {print genome_size}' $RD/$ind/Daphnia_pulex.scaffolds.fa.fai`
+genome_size=`awk '{genome_size+=$2} END {print genome_size}' $RD/$ind/Daphnia_pulex.fa.fai`
 samtools depth -a $Bam > $sp.DC.txt
 awk '{sum+=$3; sumsq+=$3*$3} END {print "Standard deviation = ",sqrt(sumsq/156418198 -(sum/156418198)**2)}' $sp.DC.txt > Avg_Stdv_$sp.txt
 sum=`awk '{sum+=$3} END {print sum}' $sp.DC.txt`
