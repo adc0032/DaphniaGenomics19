@@ -42,19 +42,19 @@ else
 fi
 
 ##place commands to create a vcf of preliminary SNPs with haplotypecaller below
-gatk --java-options "-Xmx120g" HaplotypeCaller -R $ref -I $MDB -O 0_$sp.vcf;
+#gatk --java-options "-Xmx120g" HaplotypeCaller -R $ref -I $MDB -O 0_$sp.vcf;
 
-vcftools --site-depth --vcf 0_$sp.vcf --out 0_site_depth
-vcftools --site-quality --vcf 0_$sp.vcf --out 0_site_quality
+#vcftools --site-depth --vcf 0_$sp.vcf --out 0_site_depth
+#vcftools --site-quality --vcf 0_$sp.vcf --out 0_site_quality
 
 #outputs site_depth.ldepth and site_quality.lqual
 #then pipe this output to the script
 
-cat 0_site_quality.lqual | /home/bkh0024/DaphniaGenomics19/vcf_cutoff_stats.R > 0_vcf_quality_summary.txt
-cat 0_site_depth.ldepth | /home/bkh0024/DaphniaGenomics19/vcf_cutoff_stats.R > 0_vcf_depth_summary.txt
+#cat 0_site_quality.lqual | /home/bkh0024/DaphniaGenomics19/vcf_cutoff_stats.R > 0_vcf_quality_summary.txt
+#cat 0_site_depth.ldepth | /home/bkh0024/DaphniaGenomics19/vcf_cutoff_stats.R > 0_vcf_depth_summary.txt
 
 ##place commands below to filter vcf file using vcftools
-#vcftools --vcf 0_$sp.vcf --recode --recode-INFO-all --out 0_$sp.recode.vcf
+vcftools --vcf 0_$sp.vcf --minQ 150 --max-meanDP 183.31905 --min-meanDP 81.20771 --minGQ 90 --recode --recode-INFO-all --out 0_$sp
 
 ##place commands to run base score recalibration below 
 #gatk --java-options "-Xmx120g" BaseRecalibrator -R $ref -I $MDB -knownSites 0_$sp.recode.vcf -O 0_recal_$bam2
@@ -62,7 +62,7 @@ cat 0_site_depth.ldepth | /home/bkh0024/DaphniaGenomics19/vcf_cutoff_stats.R > 0
 ##place commands that run haplotypecaller again with recalibrated bam 
 #gatk --java-options "-Xmx120g" HaplotypeCaller -R $ref -I 0_recal_$bam2 -O 1_$sp.recal.vcf
 
-#vcftools --vcf 1_$sp.recal.vcf --recode --recode-INFO-all --out 1_$sp.recal.recode.vcf
+#vcftools --vcf 1_$sp.recal.vcf --recode --recode-INFO-all --out 1_$sp.recal
 
 #/tools/samtools-1.3.1/bin/bgzip 0_$sp.recode.vcf
 #/tools/samtools-1.3.1/bin/tabix -p vcf 0_$sp.recode.vcf.gz
