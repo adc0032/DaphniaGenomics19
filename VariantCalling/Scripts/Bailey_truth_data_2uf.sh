@@ -4,7 +4,7 @@
 ##choose queue
 ####PBS -q
 ##list - node are nodes: ppn are cpus per node: walltime=walltime
-#PBS -l nodes=1:ppn=20,mem=120gb,walltime=120:00:00
+#PBS -l nodes=1:ppn=20,mem=100gb,walltime=120:00:00
 ##email
 #PBS -M baileykhowell@gmail.com
 ##send email abort; begin; end
@@ -42,34 +42,44 @@ else
 fi
 
 ##place commands to create a vcf of preliminary SNPs with haplotypecaller below
-gatk --java-options "-Xmx120g" HaplotypeCaller -R $ref -I $MDB -O 0_$sp.vcf;
+#gatk --java-options "-Xmx100g" HaplotypeCaller --reference $ref --input $MDB --output 0_$sp.vcf;
 
-vcftools --site-depth --vcf 0_$sp.vcf --out 0_site_depth
-vcftools --site-quality --vcf 0_$sp.vcf --out 0_site_quality
+#vcftools --site-depth --vcf 0_$sp.vcf --out 0_site_depth
+#vcftools --site-quality --vcf 0_$sp.vcf --out 0_site_quality
 
-#outputs site_depth.ldepth and site_quality.lqual
-#then pipe this output to the script
+##outputs site_depth.ldepth and site_quality.lqual
+##then pipe this output to the script
 
-cat 0_site_quality.lqual | /home/bkh0024/DaphniaGenomics19/vcf_cutoff_stats.R > 0_vcf_quality_summary.txt
-cat 0_site_depth.ldepth | /home/bkh0024/DaphniaGenomics19/vcf_cutoff_stats.R > 0_vcf_depth_summary.txt
+#cat 0_site_quality.lqual | /home/bkh0024/DaphniaGenomics19/vcf_cutoff_stats.R > 0_vcf_quality_summary.txt
+#cat 0_site_depth.ldepth | /home/bkh0024/DaphniaGenomics19/vcf_cutoff_stats.R > 0_vcf_depth_summary.txt
 
 ##place commands below to filter vcf file using vcftools
-#vcftools --vcf 0_$sp.vcf --recode --recode-INFO-all --out 0_$sp.recode.vcf
+
+vcftools --vcf 0_$sp.vcf --minQ 100 --minDP 26 --maxDP 221 --min-alleles 2 --max-missing 1 --recode --recode-INFO-all --out 0_$sp
+
+##place commands below to index the recoded vcf
+gatk IndexFeatureFile -F 0_$sp.recode.vcf
 
 ##place commands to run base score recalibration below 
-#gatk --java-options "-Xmx120g" BaseRecalibrator -R $ref -I $MDB -knownSites 0_$sp.recode.vcf -O 0_recal_$bam2
+gatk --java-options "-Xmx100g" BaseRecalibrator --reference $ref --input $MDB --known-sites 0_$sp.recode.vcf --output 0_recal_$sp.table
+gatk ApplyBQSR -R $ref -I $MDB --bqsr-recal-file 0_recal_$sp.table -O 0_recal_$bam2
 
 ##place commands that run haplotypecaller again with recalibrated bam 
-#gatk --java-options "-Xmx120g" HaplotypeCaller -R $ref -I 0_recal_$bam2 -O 1_$sp.recal.vcf
+gatk --java-options "-Xmx100g" HaplotypeCaller --reference $ref --input 0_recal_$bam2 --output 1_$sp.recal.vcf
 
-#vcftools --vcf 1_$sp.recal.vcf --recode --recode-INFO-all --out 1_$sp.recal.recode.vcf
 
-#/tools/samtools-1.3.1/bin/bgzip 0_$sp.recode.vcf
-#/tools/samtools-1.3.1/bin/tabix -p vcf 0_$sp.recode.vcf.gz
-#/tools/samtools-1.3.1/bin/bgzip 1_$sp.recal.recode.vcf
-#/tools/samtools-1.3.1/bin/tabix -p vcf 1_$sp.recal.recode.vcf.gz
+vcftools --vcf 1_$sp.recal.vcf --minQ 100 --minDP 26 --maxDP 221 --min-alleles 2 --max-missing 1 --recode --recode-INFO-all --out 1_$sp.recal
+gatk IndexFeatureFile -F 1_$sp.recal.recode.vcf
 
-#/tools/vcftools-v0.1.14-14/bin/vcf-compare 0_$sp.recode.vcf.gz 1_$sp.recal.recode.vcf.gz > compare_recode0v1_summary.txt
+gatk --java-options "-Xmx100g" BaseRecalibrator --reference $ref --input 0_recal_$bam2 --known-sites 1_$sp.recal.recode.vcf --output 1_recal_$sp.table
+gatk AnalyzeCovariates -before 0_recal_$sp.table -after 1_recal_$sp.table -plots 0_1_$sp.AnalyzeCovariates.pdf
+
+/tools/samtools-1.3.1/bin/bgzip 0_$sp.recode.vcf
+/tools/samtools-1.3.1/bin/tabix -p vcf 0_$sp.recode.vcf.gz
+/tools/samtools-1.3.1/bin/bgzip 1_$sp.recal.recode.vcf
+/tools/samtools-1.3.1/bin/tabix -p vcf 1_$sp.recal.recode.vcf.gz
+
+/tools/vcftools-v0.1.14-14/bin/vcf-compare 0_$sp.recode.vcf.gz 1_$sp.recal.recode.vcf.gz > compare_recode0v1_summary.txt
 
 ##repeat the commands above starting at line 49 until there is 99.9% similiarity
 
