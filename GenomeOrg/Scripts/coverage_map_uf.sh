@@ -37,15 +37,16 @@ else
 fi
 
 ##create variable for our depth file
-depth="/home/bkh0024/DaphniaGenomics19/GenomeOrg/Results/$sp.qc2_Jun_27/$sp.DC.txt"
+depth="/home/bkh0024/DaphniaGenomics19/GenomeOrg/Results/$sp.newdepth_Jul_11/$sp.DC.txt"
 
 ##commands to output the scaffolds that correspond each chromosome from supplemental material, then search for these scaffolds in our depth file, then make a file
 ##that demonstrates whether we have coverage >5x at a given position (0 means no, 1 means yes)
 for num in {1..12}
 do
-	awk '{print $1}' $SD/Chr.$num.Org.txt | sort | uniq > Scaffolds.Chr.$num.txt
-	grep -F -f Scaffolds.Chr.$num.txt $depth > $sp.Depth.Scaff.Chr.$num.txt
-	awk 'BEGIN {OFS="\t"} { if ($3 < 5) {print $1,$2,"0"} else {print $1,$2,"1"} }' $sp.Depth.Scaff.Chr.$num.txt > $sp.Cov_Chr_$num.txt
+	echo -e "REF_SCAFF\tPOS\t$sp" > $sp.Cov_Chr_$num.txt
+        awk '{print $1}' $SD/Chr.$num.Org.txt | sort | uniq > Scaffolds.Chr.$num.txt
+        grep -F -f Scaffolds.Chr.$num.txt $depth > $sp.Depth.Scaff.Chr.$num.txt
+        awk 'BEGIN {OFS="\t"} { if ($3 < 5) {print $1,$2,"0"} else {print $1,$2,"1"} }' $sp.Depth.Scaff.Chr.$num.txt >> $sp.Cov_Chr_$num.txt
 done
 
 ##commands to move up a directory, tar pdir and move it to our save directory
