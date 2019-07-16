@@ -21,8 +21,8 @@ module load java/1.8.0_91
 WD="/scratch/bkh0024/"
 SD="/home/bkh0024/DaphniaGenomics19/GenomeOrg/Results"
 Seq="/home/bkh0024/DaphniaGenomics19/GenomeOrg/Data/BA_411_USD16091408L_HKFJFDSXX_L3_1.fq"
-MDB="/home/bkh0024/DaphniaGenomics19/GenomeOrg/Results/BA_411.qc2_Jun_16/MD_BA_411.sorted.bam"
-ref="/home/bkh0024/DaphniaGenomics19/GenomeOrg/ReferenceGenome/PA42.indices_Jun_8/PA42.fasta"
+MDB="/home/bkh0024/DaphniaGenomics19/GenomeOrg/Results/BA_411.qc2_Jun_27/MD_BA_411.sorted.bam"
+ref="/home/bkh0024/DaphniaGenomics19/GenomeOrg/ReferenceGenome/our_fasta/Daphnia_pulex.indices_Jun_27/Daphnia_pulex.fa"
 cdate=`date|awk 'OFS="_"{print $2,$3}'`
 # ----------------Commands------------------- #
 ###Script is used to call variants using GATK
@@ -41,28 +41,33 @@ else
 fi
 
 ##copying the index for bam WD (may not be necessary-test)
-cp $SD/MD_BA_411.sorted.bai .
+#cp $SD/MD_BA_411.sorted.bai .
 
-##place commands to create a vcf of preliminary SNPs with haplotypecaller below
-java -Xms2g -Xmx14g -jar /tools/gatk-4.0.10.1/GenomeAnalysisTK.jar -R $ref -T HaplotypeCaller -I $MDB -o basevar_$sp.recode.vcf
+##place commands to create a gvcf of SNPs and indels with haplotypecaller below then split this vcf into SNPs and INDELs
+gatk --java-options "-Xmx100g" HaplotypeCaller --reference $ref --input $MDB --ERC GVCF --output basevar_$sp.vcf;
 
-##place commands below to filter vcf file using vcftools
-vcftools --vcf basevar_$sp.vcf --recode --recode-INFO-all --out basevar_$sp.recode.vcf
+gatk SelectVariants --reference $ref --variant basevar_$sp.vcf --select-type-to-include SNP --output baseSNPs_$sp.vcf;
 
-##place commands to run base score recalibration below 
-java -Xms2g -Xmx14g -jar /tools/gatk-4.0.10.1/GenomeAnalysisTK.jar -T BaseRecalibrator -R $ref -I $MDB -knownSites basevar_$sp.recode.vcf -o recal_MD_BA_411.sorted.bam
+gatk SelectVariants --reference $ref --variant basevar_$sp.vcf --select-type-to-include INDEL --output baseINDELs_$sp.vcf;
 
-##place commands that run haplotypecaller again with filtered vcf file 
-java -Xms2g -Xmx14g -jar /tools/gatk-4.0.10.1/GenomeAnalysisTK.jar -R $ref -T HaplotypeCaller -I $MDB --dbsbp basevar_$sp.recode.vcf -o recalvar_$sp.recode.vcf
 
-/tools/samtools-1.3.1/bin/bgzip basevar_$sp.recode.vcf
-/tools/samtools-1.3.1/bin/tabix -p vcf basevar_$sp.recode.vcf.gz
-/tools/samtools-1.3.1/bin/bgzip recalvar_$sp.recode.vcf
-/tools/samtools-1.3.1/bin/tabix -p vcf recalvar_$sp.recode.vcf.gz
+gatk VariantFiltration --reference $ref --variant baseSNPs_$sp.vcf \
+--filter-expression "QD < 2.0" --filter-name "QD2" \
+--filter-expression "QUAL < 30.0" --filter-name "QUAL30" \
+--filter-expression "SOR > 3.0" --filter-name "SOR3" \
+--filter-expression "FS > 60.0" --filter-name "FS60" \
+--filter-expression "MQ < 40.0" --filter-name "MQ40" \
+--filter-expression "MQRankSum < -12.5" --filter-name "MQRankSum-12.5" \
+--filter-expression "ReadPosRankSum < -8.0" --filter-name "ReadPosRankSum-8" \
+--output filteredSNPs_$sp.vcf
 
-/tools/vcftools-v0.1.14-14/bin/vcf-compare basevar_$sp.recode.vcf.gz recalvar_$sp.recode.vcf.gz > compare_recode1v2_summary.txt
+gatk VariantFiltration --reference $ref --variant baseINDELs_$sp.vcf \
+--filter-expression "QD < 2.0" --filter-name "QD2" \
+--filter-expression "QUAL < 30.0" --filter-name "QUAL30" \
+--filter-expression "FS > 200.0" --filter-name "FS200" \
+--filter-expression "ReadPosRankSum < -20.0" --filter-name "ReadPosRankSum-20" \
+--output filteredINDELs_$sp.vcf
 
-##repeat the commands above starting at line 49 until there is 99.9% similiarity
 
 cd ..
 
