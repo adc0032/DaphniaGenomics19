@@ -45,4 +45,8 @@ bcftools index $snp.gz
 bcftools consensus -f $ref $snp.gz -o $sp.snp.fa
 
 #masking gap and indel regions
+bedtools genomecov -ibam MD_BA_411.sorted.bam -bga |awk '$4 == 0' > $sp.mdbam_zero.bed
+zero="./$sp.mdbam_zero.bed"
+
 bedtools maskfasta -fi basnp.fa -bed $ind -fo $sp.fa
+bedtools maskfasta -fi $sp.fa -bed $zero -fo $sp.fin.fa
