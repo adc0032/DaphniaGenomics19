@@ -10,7 +10,7 @@
 ##send email abort; begin; end
 #PBS -m ae
 ##job name
-#PBS -N scaffolds_DpulicariaWI 
+#PBS -N covmap_DpulicariaWI 
 ##combine standard out and standard error
 #PBS -j oe
 # ----------------Load Modules-------------------- #
@@ -27,7 +27,7 @@ cd $WD
 ##create variables to name product directory then change directories to product directory
 dir=`basename $Seq1|awk -F. '{print $1}'`
 sp=`echo $dir|awk -F_ 'OFS="_"{print $1,$2}'`
-pdir="$sp.scaffolds_$cdate"
+pdir="CovMapData_$cdate"
 
 if [[ ! -d "$pdir" ]]; then
         mkdir $pdir
@@ -41,14 +41,23 @@ depth="/home/bkh0024/DaphniaGenomics19/GenomeOrg/Results/$sp.newdepth_Jul_11/$sp
 
 ##commands to output the scaffolds that correspond each chromosome from supplemental material, then search for these scaffolds in our depth file, then make a file
 ##that demonstrates whether we have coverage >5x at a given position (0 means no, 1 means yes)
-for num in {1..12}
-do
-	echo -e "REF_SCAFF\tPOS\t$sp" > $sp.Cov_Chr_$num.txt
-        awk '{print $1}' $SD/Chr.$num.Org.txt | sort | uniq > Scaffolds.Chr.$num.txt
-        grep -F -f Scaffolds.Chr.$num.txt $depth > $sp.Depth.Scaff.Chr.$num.txt
-        awk 'BEGIN {OFS="\t"} { if ($3 < 5) {print $1,$2,"0"} else {print $1,$2,"1"} }' $sp.Depth.Scaff.Chr.$num.txt >> $sp.Cov_Chr_$num.txt
-done
+#for num in {1..12}
+#do
+	#echo -e "REF_SCAFF\tPOS\t$sp" > $sp.Cov_Chr_$num.txt
+        #awk '{print $1}' $SD/Chr.$num.Org.txt | sort | uniq > Scaffolds.Chr.$num.txt
+        #grep -F -f Scaffolds.Chr.$num.txt $depth > $sp.Depth.Scaff.Chr.$num.txt
+        #awk 'BEGIN {OFS="\t"} { if ($3 < 5) {print $1,$2,"0"} else {print $1,$2,"1"} }' $sp.Depth.Scaff.Chr.$num.txt >> $sp.Cov_Chr_$num.txt
+#done
 
+for num in {1..12}
+do 
+	#echo -e "Scaff\tPos\tPA42" > chr.$num.depthref
+	#awk 'BEGIN {OFS="\t"} NR>1{print $1,$2,"1"}' $SD/$sp.scaffolds_Jul_12/$sp.Cov_Chr_$num.txt >> chr.$num.depthref
+	#paste chr.$num.depthref $SD/coverage_map_data_Jul_12/Cov_Chr_$num.txt > chr.$num.depthfin
+	awk 'BEGIN {OFS="\t"} { if ($4==1) {print $1,$2,$3,"0.6",$5} else {print} }' chr.$num.depthfin > tempfile$num
+	awk 'BEGIN {OFS="\t"} { if ($5==1) {print $1,$2,$3,$4,"0.8"} else {print} }' tempfile$num > covmap.$num.fin
+done
+	
 ##commands to move up a directory, tar pdir and move it to our save directory
 cd ..
 
